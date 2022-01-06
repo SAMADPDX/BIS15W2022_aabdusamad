@@ -11,6 +11,9 @@ knitr::opts_chunk$set(echo = TRUE)
 [website](https://jmledford3115.github.io/datascibiol/)
 [abdelwahab abdusamad email](mailto: aabdusamad@ucdavis.edu)
 ```{r}
-
+#install.packages("tidyverse")
+library("tidyverse")
+ggplot(mtcars, aes(x = factor(cyl))) +
+    geom_bar()
 ```
 
