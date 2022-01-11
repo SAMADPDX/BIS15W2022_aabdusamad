@@ -1,5 +1,6 @@
 ---
 title: "Data Frames"
+Author: "Abdelwahab Abdusamad" 
 date: "`r Sys.Date()`"
 output:
   html_document:
@@ -119,34 +120,48 @@ write.csv(hbirds, "hbirds_data.csv", row.names = FALSE)
 ## Practice
 Below are data collected by three scientists (Jill, Steve, Susan in order) measuring temperatures of three hot springs near Mono Lake.
 ```{r}
-temp <- c(36.25, 35.40, 35.30, 35.15, 35.35, 33.35, 30.70, 29.65, 29.20)
+```
+
+
+```{r}
+```
+
+
+```{r}
+temp_C <- c(36.25, 35.40, 35.30, 35.15, 35.35, 33.35, 30.70, 29.65, 29.20)
 name <- c("Jill", "Susan", "Steve", "Jill", "Susan", "Steve", "Jill", "Susan", "Steve")
 spring <- c("Buckeye", "Buckeye", "Buckeye", "Benton", "Benton", "Benton", "Travertine", "Travertine", "Travertine")
 ```
 
 1. Build a data frame called `hsprings` with the above data. Name the temperature column `temp_C`. Print out the data frame.  
 ```{r}
-
+hsprings <- data.frame(temp_C, name, spring)
+hsprings
 ```
 
 2. Change the column titled `name` to `scientist`, leave the other column names the same. Print out the data frame names.  
 ```{r}
-
+hsprings <- data.frame(scientist = name)
+names(hsprings)
 ```
 
 3. Our scientists forgot to record the depth data for each spring. Here it is as a vector, add it as a new column called depth_ft: `c(4.15, 4.13, 4.12, 3.21, 3.23, 3.20, 5.67, 5.65, 5.66)`. Print out the data frame.
 ```{r}
+depth_ft <- c(4.15, 4.13, 4.12, 3.21, 3.23, 3.20, 5.67, 5.65, 5.66)
+depth_ft
 
+hsprings <- cbind(hsprings, depth_ft)
+hsprings
 ```
 
 4. Calculate the mean temperature of all of the temperature measurements.
 ```{r}
-
+mean(temp_C)
 ```
 
 5. Save your hot springs data as a `.csv` file! Do not allow row names. 
 ```{r}
-
+write.csv(hsprings,"hotsprings.csv", row.names = FALSE)
 ```
 
 ## That's it! Take a break and I will see you on Zoom!  
