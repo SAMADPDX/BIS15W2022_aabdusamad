@@ -72,12 +72,12 @@ levels(hot_springs$scientist)
 
 The data are from: Gaeta J., G. Sass, S. Carpenter. 2012. Biocomplexity at North Temperate Lakes LTER: Coordinated Field Studies: Large Mouth Bass Growth 2006. Environmental Data Initiative.  [link](https://portal.edirepository.org/nis/mapbrowse?scope=knb-lter-ntl&identifier=267)  
 ```{r}
-
+data <- readr::read_csv("Gaeta_etal_CLC_data.csv")
 ```
 
 2. What is the structure of these data?
 ```{r}
-
+str()
 ```
 
 Notice that when the data are imported, you are presented with a message that tells you how R interpreted the column classes. This is also where error messages will appear if there are problems.  
