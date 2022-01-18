@@ -72,7 +72,8 @@ levels(hot_springs$scientist)
 
 The data are from: Gaeta J., G. Sass, S. Carpenter. 2012. Biocomplexity at North Temperate Lakes LTER: Coordinated Field Studies: Large Mouth Bass Growth 2006. Environmental Data Initiative.  [link](https://portal.edirepository.org/nis/mapbrowse?scope=knb-lter-ntl&identifier=267)  
 ```{r}
-data <- readr::read_csv("Gaeta_etal_CLC_data.csv")
+fish <- readr::read_csv("data/Gaeta_etal_CLC_data.csv")
+fish
 ```
 
 2. What is the structure of these data?
