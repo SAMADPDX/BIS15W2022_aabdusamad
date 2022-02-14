@@ -2,10 +2,11 @@
 title: "Data Visualization: `ggplot` part 1"
 date: "`r Sys.Date()`"
 output:
-  html_document:
+  html_document: 
     theme: spacelab
     toc: yes
     toc_float: yes
+    keep_md: yes
   pdf_document:
     toc: yes
 ---
@@ -99,7 +100,8 @@ homerange <- read_csv(here("lab9", "data", "Tamburelloetal_HomeRangeDatabase.csv
 ## Practice
 1. What is the structure of the `homerange` data? Does it have any NA's? Is it tidy? Do a quick exploratory analysis of your choice below.
 ```{r}
-
+glimpse(homerange)
+is.na(homerange)
 ```
 
 ```{r}
@@ -135,7 +137,7 @@ ggplot(data=homerange, mapping=aes(x=log10.mass, y=log10.hra)) +
 ### Practice
 1. What is the relationship between log10.hra and log10.preymass? What do you notice about how ggplot treats NA's?
 ```{r}
-
+ggplot(data = homerange, mapping = aes(x = log10.hra, y = log10.preymass)) + geom_point()
 ```
 
 ```{r}
@@ -191,7 +193,8 @@ homerange %>%
 ## Practice
 1. Filter the `homerange` data to include `mammals` only.
 ```{r}
-
+homerange %>%
+  filter(class=="mammalia")
 ```
 
 ```{r}
@@ -205,21 +208,33 @@ homerange %>%
 
 2. Are there more herbivores or carnivores in mammals? Make a bar plot that shows their relative numbers.
 ```{r}
-
+homerange %>%
+  filter(class=="mammalia") %>%
+  group_by(trophic.guild) %>%
+  count()
 ```
 
 ```{r}
-
+homerange %>% 
+  filter(class=="mammalia") %>% 
+  group_by(trophic.guild) %>% 
+  count() %>% 
+  ggplot(aes(y=trophic.guild, x=n))+
+  geom_col()
 ```
 
 
 3. Make a bar plot that shows the masses of the top 10 smallest mammals.
 ```{r}
-
+names(homerange)
 ```
 
 ```{r}
-
+homerange %>% 
+  filter(class=="mammalia") %>% 
+  top_n(-10, log10.mass) %>% 
+  ggplot(aes(x=common.name, y=log10.mass))+
+  geom_col()
 ```
 
 ```{r}
