@@ -112,6 +112,9 @@ homerange %>%
 ## Practice
 1. There are more herbivores than carnivores in the homerange data, but how do their masses compare? Make a summary and boxplot that compares their masses. Use `log10.mass`.
 ```{r}
+homerange %>% 
+  group_by(trophic.guild) %>%
+  summarise()
 
 ```
 
