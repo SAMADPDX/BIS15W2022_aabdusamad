@@ -6,6 +6,7 @@ output:
     theme: spacelab
     toc: yes
     toc_float: yes
+runtime: shiny
 ---
 
 ```{r setup, include = FALSE}
@@ -80,14 +81,33 @@ There are many types of inputs in shiny, see the [shiny cheat sheet](https://shi
 names(penguins)
 ```
 
+
+```{r}
+penguins %>%
+  ggplot(aes(x=body_mass_g, y=flipper_length_mm))+
+  geom_point()
+  
+
+
+
+```
+
+
+
+
+
+
 We won't use the name `species` because that will be the `ggplot` grouping variable. Copy and paste the code below and run the app to see our new input. 
 ```{r, eval=F, echo=T}
 ui <- fluidPage(
     selectInput("x", "Select X Variable", choices = c("bill_length_mm", "bill_depth_mm", "flipper_length_mm", "body_mass_g"), 
+              selected = "bill_length_mm"),
+    selectInput("y", "Select Y Variable", choices = c("bill_length_mm", "bill_depth_mm", "flipper_length_mm", "body_mass_g"), 
               selected = "bill_length_mm")
 )
 
 server <- function(input, output) {
+
   
 }
 
@@ -150,7 +170,9 @@ server <- function(input, output) {
 
 shinyApp(ui, server)
 ```
+#RENDER A PLOT WE WANT TO TELL R WHAT TO DO.....
 
+#
 Congratulations, you made your first shiny app!  
 
 ## Practice  
@@ -176,6 +198,33 @@ homerange %>%
 ```
 
 2. Build a shiny app that produces a barplot that explores `locomotion` type with a fill reaction for the variables `trophic.guild` and `thermoregulation`.  
+
+
+```{r}
+ui <- fluidPage(titlePanel("Homerange Locomotion"),
+                radioButtons("x", "Select Fill Variable", choices=c("trophic.guild", "thermoregulation"), selected="trophic.guild"),
+                plotOutput("plot", width="600px", height="500px")
+)
+
+server <- function(input, output, session) {
+  output$plot <- renderPlot({
+    ggplot(homerange, aes_string(x="locomotion", fill=input$x)) +
+      geom_bar(position="dodge", alpha=0.8, color="black") +
+      theme_light(base_size=18) +
+      labs(x=NULL, y=NULL, fill="Fill Variable")
+  })
+  
+}
+```
+
+
+
+
+
+
+
+
+
 ```{r}
 library(shiny)
 
@@ -187,8 +236,8 @@ ui <- fluidPage(titlePanel("Homerange Locomotion"),
 server <- function(input, output, session) {
   output$plot <- renderPlot({
     ggplot(homerange, aes_string(x="locomotion", fill=input$x)) +
-      geom_bar(position="dodge", alpha=0.8, color="black") +
-      theme_light(base_size=18) +
+      geom_bar(position="dodge", omega=1, color="purple") +
+      theme_linedraw(base_size=18) +
       labs(x=NULL, y=NULL, fill="Fill Variable")
   })
   
@@ -267,7 +316,7 @@ shinyApp(ui, server)
 ## Packages for next time  
 Please install shinydashboard below for part 2!  
 ```{r}
-#install.packages("shinydashboard")
+install.packages("shinydashboard")
 ```
 
 ## That's it, let's take a break!   
