@@ -118,18 +118,21 @@ ui <- fluidPage(
               selected = "bill_length_mm"),
     selectInput("y", "Select Y Variable", choices = c("bill_length_mm", "bill_depth_mm", "flipper_length_mm", "body_mass_g"),
               selected = "bill_depth_mm"),
-    sliderInput("fontsize", "Select the Font Size", min = 10, max = 24, value = 18, step = 1),
+    sliderInput("fontsize", "Select the Font Size", min = 10, max = 40, value = 25, step = 1),
     plotOutput("plot", width = "500px", height = "400px")
 )
 
 server <- function(input, output, session) {
   session$onSessionEnded(stopApp)
   output$plot <- renderPlot({
-  ggplot(penguins, aes_string(x = input$x, y = input$y, color="species")) + geom_point() + theme_light(base_size = input$fontsize)
+  ggplot(penguins, aes_string(x = input$x, y = input$y, color="species")) + geom_point() + theme_linedraw(base_size = input$fontsize)
   })
 }
 
 shinyApp(ui, server)
+```
+```{r}
+names(penguins)
 ```
 
 ## ui Layout with `shinydashboard`  
@@ -270,6 +273,60 @@ glimpse(gabon)
 ```
 
 2. Build an app that re-creates the plots shown on page 810 of this paper. It compares the relative abundance % to the distance from villages in rural Gabon. Use shiny dashboard and add aesthetics to the plot.  
+
+
+
+```{r}
+ui <- dashboardPage(
+  dashboardHeader(title = "Gabon"),
+  dashboardSidebar(disable = T),
+  dashboardBody(
+  fluidRow(
+  box(title = "Plot Options", width = 3,
+  selectInput("x", "Select X Variable", choices = c("HuntCat", "RA_Apes", "RA_Birds", "RA_Rodents"), selected = "bill_length_mm"),
+  selectInput("y", "Select Y Variable", choices = c("Evenesss_BirdSpecies", "Diversity_BirdSpecies", "Rich_MammalSpecies", "Diversity_MammalSpecies"), selected = "bill_depth_mm"),
+   sliderInput("pointsize", "Select the Point Size", min = 1, max = 5, value = 2, step = 0.5)
+  ), # close the first box
+  box(title = "Plot of Penguins Data", width = 7,
+  plotOutput("plot", width = "600px", height = "500px")
+  ) # close the second box
+  ) # close the row
+  ) # close the dashboard body
+) # close the ui
+
+server <- function(input, output, session) { 
+  output$plot <- renderPlot({
+  ggplot(penguins, aes_string(x = input$x, y = input$y, color="species")) + geom_point(size=input$pointsize, alpha=0.8) + theme_light(base_size = 18)
+  })
+  session$onSessionEnded(stopApp)
+  }
+
+shinyApp(ui, server)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```{r}
+gabon %>%
+   
+```
+
+
+
 ```{r}
 ui <- dashboardPage(
   dashboardHeader(title = "Relative Abundance"),

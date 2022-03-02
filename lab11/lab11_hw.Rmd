@@ -3,9 +3,9 @@ title: "Lab 11 Homework"
 author: "Please Add Your Name Here"
 date: "`r Sys.Date()`"
 output:
-  html_document:
+  html_document: 
     theme: spacelab
-    toc: no
+    keep_md: yes
 ---
 
 ```{r setup, include=FALSE}
@@ -32,10 +32,12 @@ The idea for this assignment came from [Rebecca Barter's](http://www.rebeccabart
 
 ## Gapminder
 For this assignment, we are going to use the dataset [gapminder](https://cran.r-project.org/web/packages/gapminder/index.html). Gapminder includes information about economics, population, and life expectancy from countries all over the world. You will need to install it before use. This is the same data that we will use for midterm 2 so this is good practice.
+
 ```{r}
-#install.packages("gapminder")
-library("gapminder")
+library(gapminder)
+names(gapminder)
 ```
+
 
 ## Questions
 The questions below are open-ended and have many possible solutions. Your approach should, where appropriate, include numerical summaries and visuals. Be creative; assume you are building an analysis that you would ultimately present to an audience of stakeholders. Feel free to try out different `geoms` if they more clearly present your results.  
@@ -49,7 +51,7 @@ is.na(gapminder)
 **2. Among the interesting variables in gapminder is life expectancy. How has global life expectancy changed between 1952 and 2007?**
 ```{r}
 gapminder %>%
-  filter(between(year, 1952, 2007))
+  filter(between(year, 1952, 2007)) %>%
   summarise(min=min(lifeExp),
             mean=mean(lifeExp),
             max=max(lifeExp))
@@ -115,13 +117,25 @@ gapminder %>%
 **8. Use your results from the question above to plot population growth for the top five countries since 1952.**
 ```{r}
 gapminder %>%
-  filter(year=="1952")
-  arrange(desc(pop)) %>%
-  slice(15) %>%
-  ggplot(., aes(x=country, y=pop))+
-    geom_point()
-  
+  group_by(country) %>%
+  filter(year==1952|year==2007) %>%
+  summarise(pop)
 ```
+```{r}
+ gapminder %>%
+  filter(year==1952|year==2007) %>%
+  group_by(country) %>%
+  arrange(desc(pop)) %>% 
+  head(n=7) %>% 
+  ggplot(aes(x=country, y=pop, fill=country)) + geom_col() +
+  theme(plot.title=element_text(hjust=0.5), axis.text.x = element_text(angle = 45, hjust=1))+
+  labs(title="Population Growth Since 1952",
+       x="Country",
+       y="Population Growth")
+
+```
+#CHINA AND INDIA HAVE SEEN HUGE GROWTH SINCE 1952 
+
     
     df %>% 
     arrange(desc(freq)) %>%
@@ -143,9 +157,11 @@ gapminder %>%
 **10. Make one plot of your choice that uses faceting!**
 ```{r}
 gapminder %>%
-  ggplot(aes(x=year, y=mean, group=continent, color=continent))+
-  geom_line()+
-  facet_wrap(~country) +labs(title="GDP Per Capita") +theme(axis.text = element_text(angle = 90, size = 7))
+  ggplot(aes(x=lifeExp))+geom_histogram()+facet_wrap(~year)+
+  labs(title="Histogram of Life Expectancy [1952-2007]",
+       x="Life Expectancy",
+       y="Years")+
+  theme(plot.title=element_text(hjust=1), axis.text.x = element_text(angle=25, hjust=1))
   
 ```
 

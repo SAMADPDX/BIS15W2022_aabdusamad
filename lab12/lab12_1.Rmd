@@ -85,10 +85,20 @@ names(spider_list)
 1. Now that our list elements are named, how could we access the Butte County data by name?
 ```{r}
 spider_list$Butte
+
+spider_list$Napa
+```
+```{r}
+names(spider_list) <- names_vec
 ```
 
 ## Merging Files
 We are fortunate here in that all of our data frames have the same column names. This makes it easy to merge the data together with `bind_rows()` from`dplyr`. `bind_rows()` matches columns by name.
+
+
+#match all columns by name 
+
+
 ```{r}
 spiders_all <- bind_rows(spider_list)
 spiders_all
@@ -102,6 +112,19 @@ Let's assume we have a database of customers and their purchases.
 table_A <- read_csv(here("lab12", "data", "table_A.csv"))
 table_B <- read_csv(here("lab12", "data", "table_B.csv"))
 ```
+
+```{r}
+names(table_A)
+table_A
+```
+```{r}
+names(table_B)
+table_B
+```
+
+
+
+
 
 The general syntax for joins is...
 ```{r}
@@ -173,13 +196,16 @@ There is one last thing to change. Did you notice the date column? It seems to b
 ```{r}
 class(spiders_with_locs$Date)
 ```
+```{r}
+library(lubridate)
+install.packages("lubridate")
+```
 
 The `lubridate` package was specifically created to deal with dates of all types. There are many useful functions in `lubridate` for working with dates. Please see the excellent tutorial provided by [RichardOnData](https://www.youtube.com/watch?v=VYAo69WdJZg&ab_channel=RichardOnData).
 ```{r}
 day <- today()
 str(day)
 ```
-
 ```{r}
 datetime <- now()
 datetime
@@ -207,19 +233,19 @@ dateformat5 <- "20200922 170000"
 ## Practice 
 1. Convert each of the examples above using lubridate.
 ```{r}
-
+ymd(dateformat1)
 ```
 
 ```{r}
-
+mdy(dateformat2)
 ```
 
 ```{r}
-
+dmy(dateformat3)
 ```
 
 ```{r}
-
+mdy_hms(dateformat4)
 ```
 
 ```{r}
@@ -247,10 +273,10 @@ write.csv(spiders_with_locs, file = "spiders_with_locs.csv", row.names = FALSE)
 It will be very helpful if you can install the following packages before the next lab. Please install them in order!
 `devtools` and `ggmap`
 ```{r}
-#install.packages("devtools")
-#library(devtools)
-#devtools::install_github("dkahle/ggmap")
-```
+install.packages("devtools")
+library(devtools)
+devtools::install_github("dkahle/ggmap")
+                                                                                                                                                                                 ```
 
 `rgeos`, `rgdal`, and `albersusa`
 ```{r, message = FALSE}

@@ -108,7 +108,11 @@ Try making a violin plot of taxon from the homerange data:
  1. Remind yourself what the data look like:
 
 ```{r}
-
+homerange %>% 
+  ggplot(aes(x = log10.mass, y = taxon, fill = taxon )) +
+  geom_boxplot(color = "grey", alpha = .3, na.rm = TRUE) +
+  geom_violin(alpha = .5, na.rm = TRUE) +
+  coord_flip()
 ```
 
   2. Make a violin plot of `log10.mass` by `taxon`, and a box plot of `log10.mass` by `taxon`. You can use 1 or 2 plots.
