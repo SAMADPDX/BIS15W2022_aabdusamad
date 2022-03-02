@@ -11,7 +11,7 @@
 
 <meta name="author" content="Abdelwahab Abdusamad" />
 
-<meta name="date" content="2022-01-17" />
+<meta name="date" content="2022-03-02" />
 
 <title>Lab 4 Homework</title>
 
@@ -167,7 +167,7 @@ pre code {
 
 <h1 class="title toc-ignore">Lab 4 Homework</h1>
 <h4 class="author">Abdelwahab Abdusamad</h4>
-<h4 class="date">2022-01-17</h4>
+<h4 class="date">2022-03-02</h4>
 
 </div>
 
@@ -189,14 +189,14 @@ Reference: Tamburello N, Cote IM, Dulvy NK (2015) Energy and the scaling of anim
 Data: <a href="http://datadryad.org/resource/doi:10.5061/dryad.q5j65/1" class="uri">http://datadryad.org/resource/doi:10.5061/dryad.q5j65/1</a></p>
 <p><strong>1. Load the data into a new object called <code>homerange</code>.</strong></p>
 <pre class="r"><code>homerange &lt;- readr::read_csv(&quot;data/Tamburelloetal_HomeRangeDatabase.csv&quot;)</code></pre>
-<pre><code>## Rows: 569 Columns: 24</code></pre>
-<pre><code>## -- Column specification --------------------------------------------------------
+<pre><code>## Rows: 569 Columns: 24
+## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
 ## chr (16): taxon, common.name, class, order, family, genus, species, primarym...
-## dbl  (8): mean.mass.g, log10.mass, mean.hra.m2, log10.hra, dimension, preyma...</code></pre>
-<pre><code>## 
-## i Use `spec()` to retrieve the full column specification for this data.
-## i Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+## dbl  (8): mean.mass.g, log10.mass, mean.hra.m2, log10.hra, dimension, preyma...
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 <p><strong>2. Explore the data. Show the dimensions, column names, classes for each variable, and a statistical summary. Keep these as separate code chunks.</strong></p>
 <pre class="r"><code>dim(homerange)</code></pre>
 <pre><code>## [1] 569  24</code></pre>
@@ -292,7 +292,7 @@ levels(homerange$order)</code></pre>
 ## [40] &quot;rodentia&quot;           &quot;salmoniformes&quot;      &quot;scorpaeniformes&quot;   
 ## [43] &quot;siluriformes&quot;       &quot;soricomorpha&quot;       &quot;squamata&quot;          
 ## [46] &quot;strigiformes&quot;       &quot;struthioniformes&quot;   &quot;syngnathiformes&quot;   
-## [49] &quot;testudines&quot;         &quot;tetraodontiformes&lt;U+00A0&gt;&quot; &quot;tinamiformes&quot;</code></pre>
+## [49] &quot;testudines&quot;         &quot;tetraodontiformes\xa0&quot; &quot;tinamiformes&quot;</code></pre>
 <pre class="r"><code>levels(homerange$taxon)</code></pre>
 <pre><code>## [1] &quot;birds&quot;         &quot;lake fishes&quot;   &quot;lizards&quot;       &quot;mammals&quot;      
 ## [5] &quot;marine fishes&quot; &quot;river fishes&quot;  &quot;snakes&quot;        &quot;tortoises&quot;    
@@ -300,20 +300,20 @@ levels(homerange$order)</code></pre>
 <p><strong>4. What taxa are represented in the <code>homerange</code> data frame? Make a new data frame <code>taxa</code> that is restricted to taxon, common name, class, order, family, genus, species.</strong></p>
 <pre class="r"><code>taxa &lt;- select(homerange, &quot;taxon&quot;, &quot;common.name&quot;, &quot;class&quot;, &quot;order&quot;, &quot;family&quot;, &quot;genus&quot;, &quot;species&quot;)
 taxa</code></pre>
-<pre><code>## # A tibble: 569 x 7
-##    taxon         common.name             class   order   family   genus  species
-##    &lt;fct&gt;         &lt;chr&gt;                   &lt;chr&gt;   &lt;fct&gt;   &lt;chr&gt;    &lt;chr&gt;  &lt;chr&gt;  
-##  1 lake fishes   american eel            actino~ anguil~ anguill~ angui~ rostra~
-##  2 river fishes  blacktail redhorse      actino~ cyprin~ catosto~ moxos~ poecil~
-##  3 river fishes  central stoneroller     actino~ cyprin~ cyprini~ campo~ anomal~
-##  4 river fishes  rosyside dace           actino~ cyprin~ cyprini~ clino~ fundul~
-##  5 river fishes  longnose dace           actino~ cyprin~ cyprini~ rhini~ catara~
-##  6 river fishes  muskellunge             actino~ esocif~ esocidae esox   masqui~
-##  7 marine fishes pollack                 actino~ gadifo~ gadidae  polla~ pollac~
-##  8 marine fishes saithe                  actino~ gadifo~ gadidae  polla~ virens 
-##  9 marine fishes lined surgeonfish       actino~ percif~ acanthu~ acant~ lineat~
-## 10 marine fishes orangespine unicornfish actino~ percif~ acanthu~ naso   litura~
-## # ... with 559 more rows</code></pre>
+<pre><code>## # A tibble: 569 × 7
+##    taxon         common.name             class        order family genus species
+##    &lt;fct&gt;         &lt;chr&gt;                   &lt;chr&gt;        &lt;fct&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;  
+##  1 lake fishes   american eel            actinoptery… angu… angui… angu… rostra…
+##  2 river fishes  blacktail redhorse      actinoptery… cypr… catos… moxo… poecil…
+##  3 river fishes  central stoneroller     actinoptery… cypr… cypri… camp… anomal…
+##  4 river fishes  rosyside dace           actinoptery… cypr… cypri… clin… fundul…
+##  5 river fishes  longnose dace           actinoptery… cypr… cypri… rhin… catara…
+##  6 river fishes  muskellunge             actinoptery… esoc… esoci… esox  masqui…
+##  7 marine fishes pollack                 actinoptery… gadi… gadid… poll… pollac…
+##  8 marine fishes saithe                  actinoptery… gadi… gadid… poll… virens 
+##  9 marine fishes lined surgeonfish       actinoptery… perc… acant… acan… lineat…
+## 10 marine fishes orangespine unicornfish actinoptery… perc… acant… naso  litura…
+## # … with 559 more rows</code></pre>
 <pre class="r"><code>levels(taxa$taxon)</code></pre>
 <pre><code>## [1] &quot;birds&quot;         &quot;lake fishes&quot;   &quot;lizards&quot;       &quot;mammals&quot;      
 ## [5] &quot;marine fishes&quot; &quot;river fishes&quot;  &quot;snakes&quot;        &quot;tortoises&quot;    
@@ -321,7 +321,7 @@ taxa</code></pre>
 <pre class="r"><code>levels</code></pre>
 <pre><code>## function (x) 
 ## UseMethod(&quot;levels&quot;)
-## &lt;bytecode: 0x000000001560faa8&gt;
+## &lt;bytecode: 0x7fd2073ac2b0&gt;
 ## &lt;environment: namespace:base&gt;</code></pre>
 <p><strong>5. The variable <code>taxon</code> identifies the large, common name groups of the species represented in <code>homerange</code>. Make a table the shows the counts for each of these <code>taxon</code>.</strong></p>
 <pre class="r"><code>table(homerange$taxon)</code></pre>
@@ -340,39 +340,39 @@ table(homerange$trophic.guild)</code></pre>
 <pre class="r"><code>carnivores &lt;- filter(homerange, trophic.guild == &quot;carnivore&quot;)
 herbivores &lt;- filter(homerange, trophic.guild == &quot;herbivore&quot;)
 carnivores</code></pre>
-<pre><code>## # A tibble: 342 x 24
-##    taxon   common.name   class   order  family genus species primarymethod N    
-##    &lt;fct&gt;   &lt;chr&gt;         &lt;chr&gt;   &lt;fct&gt;  &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;         &lt;chr&gt;
-##  1 lake f~ american eel  actino~ angui~ angui~ angu~ rostra~ telemetry     16   
-##  2 river ~ blacktail re~ actino~ cypri~ catos~ moxo~ poecil~ mark-recaptu~ &lt;NA&gt; 
-##  3 river ~ central ston~ actino~ cypri~ cypri~ camp~ anomal~ mark-recaptu~ 20   
-##  4 river ~ rosyside dace actino~ cypri~ cypri~ clin~ fundul~ mark-recaptu~ 26   
-##  5 river ~ longnose dace actino~ cypri~ cypri~ rhin~ catara~ mark-recaptu~ 17   
-##  6 river ~ muskellunge   actino~ esoci~ esoci~ esox  masqui~ telemetry     5    
-##  7 marine~ pollack       actino~ gadif~ gadid~ poll~ pollac~ telemetry     2    
-##  8 marine~ saithe        actino~ gadif~ gadid~ poll~ virens  telemetry     2    
-##  9 marine~ giant treval~ actino~ perci~ caran~ cara~ ignobi~ telemetry     4    
-## 10 lake f~ rock bass     actino~ perci~ centr~ ambl~ rupest~ mark-recaptu~ 16   
-## # ... with 332 more rows, and 15 more variables: mean.mass.g &lt;dbl&gt;,
+<pre><code>## # A tibble: 342 × 24
+##    taxon        common.name class order family genus species primarymethod N    
+##    &lt;fct&gt;        &lt;chr&gt;       &lt;chr&gt; &lt;fct&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;         &lt;chr&gt;
+##  1 lake fishes  american e… acti… angu… angui… angu… rostra… telemetry     16   
+##  2 river fishes blacktail … acti… cypr… catos… moxo… poecil… mark-recaptu… &lt;NA&gt; 
+##  3 river fishes central st… acti… cypr… cypri… camp… anomal… mark-recaptu… 20   
+##  4 river fishes rosyside d… acti… cypr… cypri… clin… fundul… mark-recaptu… 26   
+##  5 river fishes longnose d… acti… cypr… cypri… rhin… catara… mark-recaptu… 17   
+##  6 river fishes muskellunge acti… esoc… esoci… esox  masqui… telemetry     5    
+##  7 marine fish… pollack     acti… gadi… gadid… poll… pollac… telemetry     2    
+##  8 marine fish… saithe      acti… gadi… gadid… poll… virens  telemetry     2    
+##  9 marine fish… giant trev… acti… perc… caran… cara… ignobi… telemetry     4    
+## 10 lake fishes  rock bass   acti… perc… centr… ambl… rupest… mark-recaptu… 16   
+## # … with 332 more rows, and 15 more variables: mean.mass.g &lt;dbl&gt;,
 ## #   log10.mass &lt;dbl&gt;, alternative.mass.reference &lt;chr&gt;, mean.hra.m2 &lt;dbl&gt;,
 ## #   log10.hra &lt;dbl&gt;, hra.reference &lt;chr&gt;, realm &lt;chr&gt;, thermoregulation &lt;chr&gt;,
 ## #   locomotion &lt;chr&gt;, trophic.guild &lt;fct&gt;, dimension &lt;dbl&gt;, preymass &lt;dbl&gt;,
 ## #   log10.preymass &lt;dbl&gt;, PPMR &lt;dbl&gt;, prey.size.reference &lt;chr&gt;</code></pre>
 <pre class="r"><code>herbivores</code></pre>
-<pre><code>## # A tibble: 227 x 24
-##    taxon  common.name   class   order  family  genus species primarymethod N    
-##    &lt;fct&gt;  &lt;chr&gt;         &lt;chr&gt;   &lt;fct&gt;  &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;         &lt;chr&gt;
-##  1 marin~ lined surgeo~ actino~ perci~ acanth~ acan~ lineat~ direct obser~ &lt;NA&gt; 
-##  2 marin~ orangespine ~ actino~ perci~ acanth~ naso  litura~ telemetry     8    
-##  3 marin~ bluespine un~ actino~ perci~ acanth~ naso  unicor~ telemetry     7    
-##  4 marin~ redlip blenny actino~ perci~ blenni~ ophi~ atlant~ direct obser~ 20   
-##  5 marin~ bermuda chub  actino~ perci~ kyphos~ kyph~ sectat~ telemetry     11   
-##  6 marin~ cherubfish    actino~ perci~ pomaca~ cent~ argi    direct obser~ &lt;NA&gt; 
-##  7 marin~ damselfish    actino~ perci~ pomace~ chro~ chromis direct obser~ &lt;NA&gt; 
-##  8 marin~ twinspot dam~ actino~ perci~ pomace~ chry~ biocel~ direct obser~ 18   
-##  9 marin~ wards damsel  actino~ perci~ pomace~ poma~ wardi   direct obser~ &lt;NA&gt; 
-## 10 marin~ australian g~ actino~ perci~ pomace~ steg~ apical~ direct obser~ &lt;NA&gt; 
-## # ... with 217 more rows, and 15 more variables: mean.mass.g &lt;dbl&gt;,
+<pre><code>## # A tibble: 227 × 24
+##    taxon        common.name class order family genus species primarymethod N    
+##    &lt;fct&gt;        &lt;chr&gt;       &lt;chr&gt; &lt;fct&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;         &lt;chr&gt;
+##  1 marine fish… lined surg… acti… perc… acant… acan… lineat… direct obser… &lt;NA&gt; 
+##  2 marine fish… orangespin… acti… perc… acant… naso  litura… telemetry     8    
+##  3 marine fish… bluespine … acti… perc… acant… naso  unicor… telemetry     7    
+##  4 marine fish… redlip ble… acti… perc… blenn… ophi… atlant… direct obser… 20   
+##  5 marine fish… bermuda ch… acti… perc… kypho… kyph… sectat… telemetry     11   
+##  6 marine fish… cherubfish  acti… perc… pomac… cent… argi    direct obser… &lt;NA&gt; 
+##  7 marine fish… damselfish  acti… perc… pomac… chro… chromis direct obser… &lt;NA&gt; 
+##  8 marine fish… twinspot d… acti… perc… pomac… chry… biocel… direct obser… 18   
+##  9 marine fish… wards dams… acti… perc… pomac… poma… wardi   direct obser… &lt;NA&gt; 
+## 10 marine fish… australian… acti… perc… pomac… steg… apical… direct obser… &lt;NA&gt; 
+## # … with 217 more rows, and 15 more variables: mean.mass.g &lt;dbl&gt;,
 ## #   log10.mass &lt;dbl&gt;, alternative.mass.reference &lt;chr&gt;, mean.hra.m2 &lt;dbl&gt;,
 ## #   log10.hra &lt;dbl&gt;, hra.reference &lt;chr&gt;, realm &lt;chr&gt;, thermoregulation &lt;chr&gt;,
 ## #   locomotion &lt;chr&gt;, trophic.guild &lt;fct&gt;, dimension &lt;dbl&gt;, preymass &lt;dbl&gt;,
@@ -387,7 +387,7 @@ carnivores</code></pre>
 dtest &lt;- filter(homerange, family == &quot;cervidae&quot;)
 deer &lt;- select(dtest, &quot;mean.mass.g&quot;, &quot;log10.mass&quot;, &quot;family&quot;, &quot;genus&quot;, &quot;species&quot;)
 deer[order(deer$log10.mass), ]</code></pre>
-<pre><code>## # A tibble: 12 x 5
+<pre><code>## # A tibble: 12 × 5
 ##    mean.mass.g log10.mass family   genus      species    
 ##          &lt;dbl&gt;      &lt;dbl&gt; &lt;fct&gt;    &lt;chr&gt;      &lt;chr&gt;      
 ##  1       7500.       3.88 cervidae pudu       puda       
@@ -405,20 +405,20 @@ deer[order(deer$log10.mass), ]</code></pre>
 <p><strong>10. As measured by the data, which snake species has the smallest homerange? Show all of your work, please. Look this species up online and tell me about it!</strong> <strong>Snake is found in taxon column</strong></p>
 <pre class="r"><code>snakes &lt;- filter(homerange, taxon==&quot;snakes&quot;)
 snakes[order(snakes$log10.hra), na.rm = TRUE]</code></pre>
-<pre><code>## # A tibble: 41 x 24
-##    taxon  common.name   class  order  family  genus  species primarymethod N    
-##    &lt;fct&gt;  &lt;chr&gt;         &lt;chr&gt;  &lt;fct&gt;  &lt;fct&gt;   &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;         &lt;chr&gt;
-##  1 snakes namaqua dwar~ repti~ squam~ viperi~ bitis  schnei~ telemetry     11   
-##  2 snakes eastern worm~ repti~ squam~ colubr~ carph~ viridis radiotag      10   
-##  3 snakes butlers gart~ repti~ squam~ colubr~ thamn~ butleri mark-recaptu~ 1    
-##  4 snakes western worm~ repti~ squam~ colubr~ carph~ vermis  radiotag      1    
-##  5 snakes snubnosed vi~ repti~ squam~ viperi~ vipera latast~ telemetry     7    
-##  6 snakes chinese pit ~ repti~ squam~ viperi~ gloyd~ shedao~ telemetry     16   
-##  7 snakes ringneck sna~ repti~ squam~ colubr~ diado~ puncta~ mark-recaptu~ &lt;NA&gt; 
-##  8 snakes cottonmouth   repti~ squam~ viperi~ agkis~ pisciv~ telemetry     15   
-##  9 snakes redbacked ra~ repti~ squam~ colubr~ oocat~ rufodo~ telemetry     21   
-## 10 snakes gopher snake  repti~ squam~ colubr~ pituo~ cateni~ telemetry     4    
-## # ... with 31 more rows, and 15 more variables: mean.mass.g &lt;dbl&gt;,
+<pre><code>## # A tibble: 41 × 24
+##    taxon  common.name       class order family genus species primarymethod N    
+##    &lt;fct&gt;  &lt;chr&gt;             &lt;chr&gt; &lt;fct&gt; &lt;fct&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;         &lt;chr&gt;
+##  1 snakes namaqua dwarf ad… rept… squa… viper… bitis schnei… telemetry     11   
+##  2 snakes eastern worm sna… rept… squa… colub… carp… viridis radiotag      10   
+##  3 snakes butlers garter s… rept… squa… colub… tham… butleri mark-recaptu… 1    
+##  4 snakes western worm sna… rept… squa… colub… carp… vermis  radiotag      1    
+##  5 snakes snubnosed viper   rept… squa… viper… vipe… latast… telemetry     7    
+##  6 snakes chinese pit viper rept… squa… viper… gloy… shedao… telemetry     16   
+##  7 snakes ringneck snake    rept… squa… colub… diad… puncta… mark-recaptu… &lt;NA&gt; 
+##  8 snakes cottonmouth       rept… squa… viper… agki… pisciv… telemetry     15   
+##  9 snakes redbacked ratsna… rept… squa… colub… ooca… rufodo… telemetry     21   
+## 10 snakes gopher snake      rept… squa… colub… pitu… cateni… telemetry     4    
+## # … with 31 more rows, and 15 more variables: mean.mass.g &lt;dbl&gt;,
 ## #   log10.mass &lt;dbl&gt;, alternative.mass.reference &lt;chr&gt;, mean.hra.m2 &lt;dbl&gt;,
 ## #   log10.hra &lt;dbl&gt;, hra.reference &lt;chr&gt;, realm &lt;chr&gt;, thermoregulation &lt;chr&gt;,
 ## #   locomotion &lt;chr&gt;, trophic.guild &lt;fct&gt;, dimension &lt;dbl&gt;, preymass &lt;dbl&gt;,
