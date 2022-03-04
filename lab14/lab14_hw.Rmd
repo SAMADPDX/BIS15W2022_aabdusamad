@@ -3,7 +3,7 @@ title: "Lab 14 HW"
 output: 
   html_document: 
     keep_md: yes
-author: "your name here"
+author: "Abdelwahab Abdusamad"
 date: '2022-02-28'
 ---
 
@@ -14,11 +14,11 @@ library(tidyverse)
 library(janitor)
 library("palmerpenguins")
 
-#install.packages("ggVennDiagram")
+install.packages("ggVennDiagram")
 library(ggVennDiagram)
 library(RColorBrewer)
 
-#install.packages("ggworldcloud")
+install.packages("ggwordcloud")
 library(ggwordcloud)
 
 
@@ -38,29 +38,48 @@ beachbugs_long <- readr::read_csv("data/beachbugs_long.csv")
 Clean up the column names (no capitals, not spaces) of `superhero_info`, then use 2 functions to remind yourself of structure of the `superhero_info` data set.
 
 ```{r}
-
+superhero_info <- clean_names(superhero_info)
 ```
+
+```{r}
+glimpse(superhero_info)
+```
+```{r}
+str(superhero_info)
+```
+
 
 ### 2.
 Are bad guys bigger? Make box-plots of weight by `alignment` (alignment on the x-axis).
 ```{r}
-
+superhero_info %>%
+  ggplot(aes(x=alignment, y=weight, fill=alignment))+
+  geom_boxplot(alpha=1)
 ```
 
 ### 3. 
 Now, make a violin plot of weight by `alignment` (alignment on the x-axis). Add some color!
   What information can you observe in the violin plot that was not visible in the boxplot?
 ```{r}
-
+superhero_info %>%
+  ggplot(aes(x=alignment, y=weight, fill=alignment))+
+  geom_violin(alpha=.7)
+  
 ```
+#Nuetral is longer however bad and good are wider
 
 
 
 ### 4. 
 Use `alpha = .5` in `geom_boxplot()` and `geom_violin()` to layer both plots on top of one another. What does this tell you about the distribution of weight in "`bad`" guys?
 ```{r}
-
+superhero_info %>%
+  ggplot(aes(x=alignment, y=weight, fill=alignment))+
+  geom_violin(alpha=0.5)+
+  geom_boxplot(alpha=0.5)
+  
 ```
+#Neutral has a loger violin curve however bad and good are much more wider 
 
 ### 5. 
 Box plots are great for showing how the distribution of a numeric variable (e.g. weight) varies among a categorical variable (e.g. alignment).
@@ -69,7 +88,10 @@ Box plots are great for showing how the distribution of a numeric variable (e.g.
   What is your categorical variable?
 
 ```{r}
-
+superhero_info %>%
+  ggplot(aes(x=gender, y=height, fill=gender))+
+  geom_violin(alpha=0.7)+
+  scale_y_log10()
 ```
 
 ### 6. 
@@ -78,11 +100,20 @@ color it with `scale_fill_gradient(low="yellow", high="red")` or colors of your 
 (dont forget, `coord_flip()` is a quick way to improve the look of your plot if you dont like the default orientation)
 
 ```{r}
-
+beachbugs_high <- beachbugs_long %>%
+  group_by(site) %>%
+  mutate(buglevel_high = max(buglevels, na.rm = T)) %>%
+  arrange(site)
+beachbugs_high
 ```
 
 ```{r}
-
+beachbugs_normal <- beachbugs_high %>%
+  group_by(site) %>%
+  mutate(buglev_norm = buglevels/beachbugs_high) %>%
+  arrange(site,year) %>%
+  select(site, year, buglev_norm)
+  
 ```
 
 ### 7.  
