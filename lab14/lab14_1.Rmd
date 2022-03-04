@@ -176,7 +176,11 @@ heartrate_diff %>%
   2. Make a heat map for body mass by species & sex for penguins
 
 ```{r}
-
+penguins %>% 
+  ggplot(aes(species, sex, fill= heartrate)) + 
+  geom_tile()+
+  scale_fill_gradient2(low="green", mid = "white", high="red")
+# scale_fill_graient2 lets you set a color direction for zero (mid), positive (high), and negative (low)
 ```
 
 

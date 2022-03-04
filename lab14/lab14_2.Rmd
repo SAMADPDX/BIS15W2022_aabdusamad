@@ -1,4 +1,4 @@
----
+ ---
 title: "Data Visualization: Venn Diagrams & Word Clouds"
 date: "`r Sys.Date()`"
 output:
@@ -18,12 +18,12 @@ output:
 
 ## Load Libraries
 ```{r}
-library(tidyverse)
+library(tidyverse) 
 
-#install.packages("ggVennDiagram")
+install.packages("ggVennDiagram")
 library(ggVennDiagram)
 library(RColorBrewer)
-#install.packages("ggworldcloud")
+install.packages("ggworldcloud")
 library(ggwordcloud)
 ```
 
@@ -79,7 +79,7 @@ Do they fly? Are they a bird?
 We can recycle the `flying_vec`
 Do they fly?
 ```{r}
-# flying_vec
+ flying_vec
 ```
 
 Are they a bird?
@@ -197,6 +197,12 @@ ecto_vec<- homerange %>%
 
 
 # Make the plot:
+
+
+
+fly_or_bird_list_b <- list(swimming_vec, carni_vec, aqua_vec, ecto_vec)
+
+ggVennDiagram(fly_or_bird_list_b, category.names = c("swimming", "carni", "aqua", "ecto_vec"))
 ```
 
 
@@ -207,7 +213,9 @@ Use dplyr to determine which 20 animals from this plot are:
 - NOT Carnivores?
 
 ```{r}
-
+fly_or_bird_list_b %>%
+  
+  
 ```
 
 
@@ -247,12 +255,29 @@ For now, practice word clouds by making a could of all the different families in
 If they dont fit, try tinkering the `scale_size_area(max_size =   )`
 
 make the count table:
+
+
 ```{r}
 
+```
+
+```{r}
+rep_taxon_count <- reptilia %>% 
+  count(taxon)
+rep_taxon_count
 ```
 
 
 make the plot:
 ```{r}
-
+hr_taxon_count %>% 
+ggplot(aes(
+  label = taxon, 
+  size = n,
+  color = taxon
+  )) +
+  geom_text_wordcloud() +
+  scale_size_area(max_size = 20) +
+  theme_minimal()
+```
 ```

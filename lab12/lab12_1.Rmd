@@ -280,7 +280,7 @@ devtools::install_github("dkahle/ggmap")
 
 `rgeos`, `rgdal`, and `albersusa`
 ```{r, message = FALSE}
-#install.packages("albersusa")
+install.packages("albersusa")
 ```
 
 ## That's it! Take a break and I will see you on Zoom!  
