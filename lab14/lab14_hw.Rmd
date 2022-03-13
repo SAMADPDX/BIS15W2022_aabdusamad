@@ -14,11 +14,8 @@ library(tidyverse)
 library(janitor)
 library("palmerpenguins")
 
-install.packages("ggVennDiagram")
 library(ggVennDiagram)
 library(RColorBrewer)
-
-install.packages("ggwordcloud")
 library(ggwordcloud)
 
 
@@ -100,46 +97,53 @@ color it with `scale_fill_gradient(low="yellow", high="red")` or colors of your 
 (dont forget, `coord_flip()` is a quick way to improve the look of your plot if you dont like the default orientation)
 
 ```{r}
-beachbugs_high <- beachbugs_long %>%
-  group_by(site) %>%
-  mutate(buglevel_high = max(buglevels, na.rm = T)) %>%
-  arrange(site)
-beachbugs_high
+summary(beachbugs_long)
 ```
 
 ```{r}
-beachbugs_normal <- beachbugs_high %>%
-  group_by(site) %>%
-  mutate(buglev_norm = buglevels/beachbugs_high) %>%
-  arrange(site,year) %>%
-  select(site, year, buglev_norm)
-  
+beachbugs_long %>%
+  ggplot(aes(site, year, fill=buglevels))+
+  geom_tile()+
+  scale_fill_gradient(low="blue", high = "red")+
+  coord_flip()+ 
+  theme_linedraw()
 ```
+
+#Low being Blue and High being Red 
+
+
+
 
 ### 7.  
-Use the provided code to normalize the beachbug data set. 
-Then make a heatmap with the `beachbugs_normalized` data, and use the same color chois as above. Which heatmap do you think is more informative? why?
-
-```{r}
+#Use the provided code to normalize the beachbug data set. 
+#Then make a heatmap with the `beachbugs_normalized` data, and use the same color chois as above. Which heatmap do you think is more informative? why?
 #makes a new column of the highest buglevel observed at each site
-beachbugs_w_max <- beachbugs_long %>% 
-  group_by(site) %>% 
-  mutate(max_buglevel = max(buglevels, na.rm=T)) %>% 
-  arrange(site)
-beachbugs_w_max
 
-#makes a new table where the buglevels are normalized to the max_buglevel
-beachbugs_normalized <- beachbugs_w_max %>% 
-  group_by(site) %>% 
-  mutate(norm_buglevel = buglevels/max_buglevel) %>% 
-  arrange(site,year) %>%
-  select(site, year, norm_buglevel)   # you dont have to select(), but I think its a clearer looking table
-beachbugs_normalized
-```
  
 ```{r}
-
+beachbugs_max <- beachbugs_long %>%
+  group_by(site) %>%
+  mutate(max_buglevel = max(buglevels, na.rm = T)) %>%
+  arrange(site)
+beachbugs_max
 ```
+```{r}
+beachbugs_normx <- beachbugs_max %>%
+  group_by(site) %>%
+  mutate(beachbugs_normt = buglevels/max_buglevel) %>%
+  arrange(site, year) %>%
+  select(site, year, beachbugs_normt)
+beachbugs_normx
+```
+```{r}
+beachbugs_normx %>%
+  ggplot(aes(site, year, fill=beachbugs_normt)) +
+  geom_tile() +
+  scale_fill_gradient(low = "blue", high = "red") +
+  coord_flip()
+```
+#Low being Blue, High being Red 
+
 
 ### 8.
 Let's make a venn diagram of `superhero_info`, from 4 questions:
@@ -148,37 +152,47 @@ Are their eyes red?
 Are they male?
 Are they bald?
 
+```{r}
+names(superhero_info)
+```
+
+
 Start by making the 4 vectors, then the list of vectors. The vector for alignment is provided:
 ### super heros venn
 ```{r}
 # evil
 
-#evil_vec <- superhero_info %>%
-#  filter(alignment == "bad")%>%
-#  pull(name)
+evil_vec <- superhero_info %>%
+  filter(alignment == "bad")%>%
+  pull(name)
 
-# red eyes
+red_eye_vec <- superhero_info %>%
+  filter(eye_color == "red")%>%
+  pull(name)
 
 
-# male
+male_vec <- superhero_info %>%
+  filter(gender == "Male")%>%
+  pull(name)
 
 
-# bald
+bald_vec <- superhero_info %>%
+  filter(hair_color == "No Hair")%>%
+  pull(name)
 
 
 ```
 
 Your list of vectors will look something like this:
 ```{r}
-# questions_list <- list(evil_vec, red_eye_vec, male_vec, bald_vec)
+questions_list <- list(evil_vec, red_eye_vec, male_vec, bald_vec)
 
 ```
 
 ### 9. 
 Let's make the venn diagram! use the code from lab as a reference. 
 ```{r}
-# something like:
-# ggVennDiagram( list, category.names = c("name", "name", "name", "name"))
+ggVennDiagram( questions_list, category.names = c("Evil", "Red Eyes", "Male", "Bald"))
 
 
 
@@ -188,14 +202,27 @@ Let's make the venn diagram! use the code from lab as a reference.
 ### 10. Choose one intersection of the venn diagram that is interesting to you. Use dplyr to find the names of the superheros in that intersection. 
 
 ```{r}
-
+superhero_info%>%
+  filter(alignment == "bad")%>%
+  filter(eye_color == "red")%>%
+  filter(gender == "Male")%>%
+  filter(hair_color == "No Hair")%>%
+  select(name)
 ```
 
 
 
 ### 11. Make another venn diagram with the `superhero_info` data. What are your questions? ( At least 2!) 
+#I was thinking about lex luthor, and a question had popped up in my head, are all evil villians bald?
 ```{r}
-
+evil_vec <- superhero_info %>%
+  filter(alignment == "Evil") %>%
+  pull(name)
+bald_vec <- superhero_info %>%
+  filter(hair_color == "No Hair") %>%
+  pull(name)
+q_list <- list(evil_vec, bald_vec)
+ggVennDiagram(q_list, category.names = c("Evil","No Hair"))
 ```
 
 
@@ -219,7 +246,11 @@ power_frequency
 
 
 ```{r}
-
+power_frequency %>%
+  ggplot(aes(label = power, size = freq, color = power)) +
+  geom_text_wordcloud() +
+  scale_size_area(max_size = 10) +
+  theme_minimal()
 
 
 ```
@@ -246,6 +277,15 @@ power_quantity <- power_quantity %>%
 power_quantity
 
 ```
+
+```{r}
+power_quantity %>%
+  ggplot(aes(label = hero_names, size = sum_powers, color = hero_names)) +
+  geom_text_wordcloud() +
+  scale_size_area(max_size = 10) +
+  theme_minimal()
+```
+
 
 
 
