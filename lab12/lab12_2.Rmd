@@ -24,26 +24,25 @@ If you completed part 1 of today's lab then you should have the following packag
 
 `devtools` and `ggmap`
 ```{r}
-#install.packages("devtools")
-#library(devtools)
-#devtools::install_github("dkahle/ggmap")
-```
-
-`albersusa`
-```{r, message = FALSE}
-#install.packages("albersusa")
+install.packages("devtools")
+library(devtools)
+devtools::install_github("dkahle/ggmap")
 ```
 
 ## Load the libraries
-```{r, message = FALSE}
+```{r}
 library(tidyverse)
 library(here)
 library(janitor)
+```
+
+## Load the `ggmap` package  
+```{r}
 library(ggmap)
 ```
 
 Let's load our processed data from the first part of the lab.
-```{r, message = FALSE}
+```{r}
 spiders <- read_csv(here("lab12", "data", "spiders_with_locs.csv")) %>% clean_names()
 ```
 
@@ -64,7 +63,7 @@ spiders %>%
   summary()
 ```
 
-Now we set the bounding box.
+Now we set the bounding box. We use the min and max values for latitude and longitude to set the range.  
 ```{r}
 lat <- c(34.67, 41.80)
 long <- c(-124.1, -115.5)
@@ -85,95 +84,36 @@ ggmap(map1)
 ```{r}
 ggmap(map1) + 
   geom_point(data = spiders, aes(longitude, latitude)) +
-  labs(x = "Longitude", y = "Latitude", title = "Spider Locations")
+  labs(x= "Longitude", y= "Latitude", title="Spider Locations")
 ```
 
 ## Practice
-1. Map the spider locations with a different type of base map. Try to adjust the map using different aesthetics including `size`, `color`, and `alpha`.
+Let's practice with a data set that records sightings of grizzly bears (Ursos arctos) in Alaska [data set](https://rcweb.dartmouth.edu/~f002d69/workshops/index_rspatial.html).  
 ```{r}
+grizzly <- read_csv(here("lab12", "data", "bear-sightings.csv"))
+```
 
+1. Use the range of the latitude and longitude to build an appropriate bounding box for your map.
+```{r}
+lat <- c(55.02, 70.37)
+long <- c(-131.3, -166.2)
+bbox <- make_bbox(long, lat, f = 0.05)
+```
+
+2. Load a map from `stamen` in a terrain style projection and display the map.
+```{r}
+map1 <- get_map(bbox, maptype = "terrain", source = "stamen")
 ```
 
 ```{r}
-
+ggmap(map1)
 ```
 
-## Albers USA
-The Albers USA [package](https://github.com/hrbrmstr/albersusa) is a very fast way to produce clean maps that include nice overlays of counties across the US. I haven't explored it fully, but here are some nice examples.
+3. Build a final map that overlays the recorded observations of grizzly bears in Alaska.
 ```{r}
-library(albersusa)
-```
-
-State Boundaries.
-```{r}
-us_comp <- usa_sf() # get a composite map of the USA
-```
-
-County boundaries in each state.
-```{r}
-cnty_comp <- counties_sf() # get a composite map of USA counties
-```
-
-Map of the USA- notice that you can still use themes. `geom_sf` stands for simple feature.
-```{r}
-ggplot() + 
-  geom_sf(data = us_comp, size = 0.125) + 
-  theme_linedraw()+
-  labs(title = "USA State Boundaries")
-```
-
-Since we want to produce a map of our spiders we need to restrict the map to California.
-```{r}
-ca_comp <- us_comp %>% 
-  filter(name=="California")
-```
-
-```{r}
-ca_cnty_comp <- cnty_comp %>% 
-  filter(state=="California")
-```
-
-Our base map
-```{r}
-ggplot() +
-  geom_sf(data = ca_comp, size = 0.125)+
-  geom_sf(data = ca_cnty_comp, size = 0.125)
-```
-
-All we do now is add the `geom_point()` layer.
-```{r}
-ggplot() +
-  geom_sf(data = ca_comp, size = 0.125)+
-  geom_sf(data = ca_cnty_comp, size = 0.125)+
-  geom_point(data = spiders, aes(longitude, latitude))
-```
-
-We can spice things up a bit by adding aesthetics.
-```{r}
-ggplot() +
-  geom_sf(data = ca_comp, size = 0.125)+
-  geom_sf(data = ca_cnty_comp, size = 0.125)+
-  geom_point(data = spiders, aes(longitude, latitude))+
-  labs(x = "Figure 1: Distribution of Usofila spiders")+
-  theme_minimal() +
-  theme(axis.text = element_blank()) +
-  theme(axis.title.x = element_text(hjust=0.5, size = 10)) +
-  theme(axis.title.y = element_blank()) +
-  theme(panel.grid = element_blank()) +
-  theme(legend.position = c(0.9, 0.3)) -> uso_map
-
-ggsave(filename = "map.svg", device = "svg", plot = uso_map, height = 5, width = 7)
-```
-
-## Practice
-1. Make a new column that labels each specimen as occurring in a cave or on the surface. The word "Cave" is part of the locality information.
-```{r}
-
-```
-
-2. Now adjust the plot above to give a different color for specimens that occur in caves.
-```{r}
-
+ggmap(map1) + 
+  geom_point(data = grizzly, aes(longitude, latitude), size=0.8) +
+  labs(x = "Longitude", y = "Latitude", title = "Ursos arctos")
 ```
 
 ## That's it, let's take a break!   
